@@ -1,94 +1,85 @@
 <template>
-  <nav v-show="isNavBarVisible" id="navbar-main" class="navbar is-fixed-top">
-    <div class="navbar-brand">
-      <a class="navbar-item is-hidden-desktop" @click.prevent="menuToggleMobile">
-        <b-icon :icon="menuToggleMobileIcon"/>
-      </a>
-    </div>
-    <div class="navbar-brand is-right">
-      <div class="navbar-item navbar-item-menu-toggle is-hidden-desktop">
-        <a @click.prevent="menuNavBarToggle">
-          <b-icon :icon="menuNavBarToggleIcon" custom-size="default"/>
+  <nav v-show="isNavBarVisible" id="navbar-main is-spaced" class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img src="../assets/logo.png" width="170" height="40" />
         </a>
+        <div
+          class="navbar-item navbar-item-menu-toggle is-hidden-desktop burger-right"
+        >
+          <a @click.prevent="menuNavBarToggle">
+            <b-icon :icon="menuNavBarToggleIcon" custom-size="mdi-36px" />
+          </a>
+        </div>
       </div>
-    </div>
-    <div class="navbar-menu fadeIn animated faster" :class="{'is-active':isMenuNavBarActive}">
-      <div class="navbar-end">
-        <nav-bar-menu class="has-divider">
-          <b-icon icon="menu" custom-size="default"/>
-          <span>Sample Menu</span>
-          <div slot="dropdown" class="navbar-dropdown">
-            <a class="navbar-item">
-              <b-icon icon="account" custom-size="default"/>
-              <span>My Profile</span>
-            </a>
-            <a class="navbar-item">
-              <b-icon icon="settings" custom-size="default"/>
-              <span>Settings</span>
-            </a>
-            <a class="navbar-item">
-              <b-icon icon="email" custom-size="default"/>
-              <span>Messages</span>
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              <b-icon icon="logout" custom-size="default"/>
-              <span>Log Out</span>
-            </a>
+
+      <div
+        class="navbar-menu fadeIn animated faster"
+        :class="{ 'is-active': isMenuNavBarActive }"
+      >
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="image image-inline is-60x60">
+              <img src="../assets/person1.png" class="is-rounded" />
+            </div>
+            <div style="padding-left: 30px; line-height: 15px">
+              <div class="has-text-left"><b>Иванов</b></div>
+              <small>Иван Иванович</small>
+            </div>
           </div>
-        </nav-bar-menu>
-        <a href="https://justboil.me/bulma-admin-template/two" class="navbar-item" title="About">
-          <b-icon icon="help-circle" custom-size="default"/>
-          <span>About</span>
-        </a>
-        <a class="navbar-item" title="Log out" @click="logout">
-          <b-icon icon="logout" custom-size="default"/>
-          <span>Log out</span>
-        </a>
+          <div class="navbar-item" title="Log out" @click="logout">
+            <b-button type="is-rounded">Выйти из системы</b-button>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-import NavBarMenu from '@/components/NavBarMenu'
-import { mapState } from 'vuex'
+import NavBarMenu from "@/components/NavBarMenu";
+import { mapState } from "vuex";
 
 export default {
-  name: 'NavBar',
+  name: "NavBar",
   components: {
     NavBarMenu
   },
-  data () {
+  data() {
     return {
       isMenuNavBarActive: false
-    }
+    };
   },
   computed: {
-    menuNavBarToggleIcon () {
-      return (this.isMenuNavBarActive) ? 'close' : 'dots-vertical'
+    menuNavBarToggleIcon() {
+      return this.isMenuNavBarActive ? "close" : "menu";
     },
-    menuToggleMobileIcon () {
-      return this.isAsideMobileExpanded ? 'backburger' : 'forwardburger'
+    menuToggleMobileIcon() {
+      return this.isAsideMobileExpanded ? "backburger" : "forwardburger";
     },
-    ...mapState([
-      'isNavBarVisible',
-      'isAsideMobileExpanded'
-    ])
+    ...mapState(["isNavBarVisible", "isAsideMobileExpanded"])
   },
   methods: {
-    menuToggleMobile () {
-      this.$store.commit('asideMobileStateToggle')
+    menuToggleMobile() {
+      this.$store.commit("asideMobileStateToggle");
     },
-    menuNavBarToggle () {
-      this.isMenuNavBarActive = (!this.isMenuNavBarActive)
+    menuNavBarToggle() {
+      this.isMenuNavBarActive = !this.isMenuNavBarActive;
     },
-    logout () {
+    logout() {
       this.$buefy.snackbar.open({
-        message: 'Log out clicked',
+        message: "Log out clicked",
         queue: false
-      })
+      });
     }
   }
-}
+};
 </script>
+
+<style>
+.burger-right {
+  margin-right: 0;
+  margin-left: auto;
+}
+</style>
