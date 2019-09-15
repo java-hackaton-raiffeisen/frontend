@@ -4,14 +4,14 @@
       <span class="home-title">Оплата услуги</span>
     </title-bar>
     <card-component title="Clients" class="has-table">
-      <div class="columns is-centered">
+      <div class="columns">
         <div class="column is-2" style="margin-left: 20px">
           <qr-code
             style="display: inline-block"
             text="https://e-commerce.raiffeisen.ru/vsmc3ds/pay_new/3dsproxy_init.jsp"
           ></qr-code>
         </div>
-        <div class="column is-2">
+        <div class="column is-3">
           <span>
             <b> Отсканируйте QR-для оплаты услуги</b>
 
@@ -35,6 +35,5 @@ Vue.component("qr-code", VueQRCodeComponent);
 
 export default {
   components: { TitleBar, CardComponent },
-  data() {}
 };
 </script>
