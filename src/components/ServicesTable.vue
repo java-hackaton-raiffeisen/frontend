@@ -1,46 +1,44 @@
 <template>
   <div>
-
-    <!--<modal-box-->
-    <!--:is-active="isModalActive"-->
-    <!--:trash-object-name="trashObjectName"-->
-    <!--@confirm="trashConfirm"-->
-    <!--@cancel="trashCancel"-->
-    <!--/>-->
     <b-table
       :checkable="checkable"
       :loading="isLoading"
       :paginated="paginated"
       :per-page="perPage"
-      default-sort="name"
-      :data="clients"
+      default-sort="id"
+      :data="services"
     >
       <template slot-scope="props">
-        <b-table-column class="has-no-head-mobile is-image-cell">
-          <div class="image image-inline is-64x64">
-            <img :src="props.row.personImg" class="is-rounded" />
-          </div>
+        <b-table-column label="Номер услуги" field="id" sortable>
+          №{{ props.row.id }}
         </b-table-column>
-        <b-table-column label="Имя" field="name">
-          {{ props.row.fullName }}
+        <b-table-column label="Стоимость услуги" field="price" sortable>
+          {{ props.row.price }} руб
         </b-table-column>
-        <b-table-column label="Почта" field="email">
-          {{ props.row.email }}
+        <b-table-column label="Итоговая стоимость" field="fullPrice" sortable>
+          {{ props.row.fullPrice }} руб
         </b-table-column>
-        <b-table-column label="Телефон" field="phone">
-          {{ props.row.phone }}
+        <b-table-column label="Услуга оплачена" field="isPayed" sortable>
+          {{ props.row.isPayed ? "Да" : "Нет" }}
         </b-table-column>
-        <b-table-column label="Общий доход" field="income" sortable>
-          {{ props.row.income }}
+        <b-table-column label="Дата создания" field="created" sortable>
+          {{ props.row.created }}
         </b-table-column>
-
+        <b-table-column label="Дата оплаты" field="payedDate" sortable>
+          {{ props.row.payedDate }}
+        </b-table-column>
         <b-table-column custom-key="actions" class="is-actions-cell">
           <div class="buttons space-evenly">
-            <router-link :to="{ name: 'services', params: { clientId: props.row.id }}" class="button is-rounded" type="button" >
-              Список услуг
+            <router-link
+              :to="{ name: 'invoice', params: { serviceId: props.row.id } }"
+              class="button is-rounded"
+              type="button"
+              :disabled="props.row.isPayed"
+            >
+              Запросить оплату
             </router-link>
             <a @click.prevent="trashModal(props.row)">
-              Удалить клиента
+              Удалить услугу
             </a>
           </div>
         </b-table-column>
@@ -58,7 +56,7 @@
             <p>
               <b-icon icon="emoticon-sad" size="is-large" />
             </p>
-            <p>Пока нет клиентов&hellip;</p>
+            <p>Пока нет услуг&hellip;</p>
           </template>
         </div>
       </section>
@@ -87,22 +85,22 @@ export default {
     return {
       isModalActive: false,
       trashObject: null,
-      clients: [
+      services: [
         {
-          id: 1,
-          fullName: "Adnrew Lee",
-          email: "andrlee14@mail.ru",
-          phone: "8(977)6740062",
-          income: "10500",
-          personImg: require("../assets/person1.png")
+          id: 101102,
+          price: 1000,
+          fullPrice: 1500,
+          isPayed: true,
+          created: "2019-07-23",
+          payedDate: "2019-07-23"
         },
         {
-          id: 2,
-          fullName: "Justin Putin",
-          email: "andrlee14@mail.ru",
-          phone: "8(977)6740062",
-          income: "1051",
-          personImg: require("../assets/person1.png")
+          id: 101103,
+          price: 9000,
+          fullPrice: 9500,
+          isPayed: false,
+          created: "2019-07-23",
+          payedDate: "2019-07-23"
         }
       ],
       isLoading: false,
